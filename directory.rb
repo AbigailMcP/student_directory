@@ -4,7 +4,8 @@ def input_students
   # create an empty array
   students = []
   # get the first name
-  name = gets.chomp
+  name = gets
+  name.chop! if name[-1] == "\r" || name[-1] == "\n"
   # while the name is not empty, repeat this code
   while !name.empty? do
     puts "What cohort are they in?"
