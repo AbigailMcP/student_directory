@@ -49,11 +49,16 @@ def input_students
     cohort = STDIN.gets.chomp.capitalize.to_sym
     if cohort.empty? == true then cohort = :November end
     # add the student hash to the array
-    @students << {name: name, cohort: cohort}
+    add_student(name,cohort)
     puts @students.count == 1 ? "Now we have #{@students.count} student" : "Now we have #{@students.count} students"
     # get anther name from the user
+    puts "Enter another student, or hit return again to finish"
     name = STDIN.gets.chomp
   end
+end
+
+def add_student(name,cohort)
+  @students << {name: name, cohort: cohort.to_sym}
 end
 
 def print_header
@@ -105,7 +110,7 @@ def load_students(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort = line.chomp.split(',')
-    @students << {name: name, cohort: cohort.to_sym}
+    add_student(name,cohort)
   end
   file.close
 end
