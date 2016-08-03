@@ -18,7 +18,7 @@ def input_students
     height = gets.chomp
     # add the student hash to the array
     students << {name: name, cohort: cohort, country: country, hobby: hobby, height: height}
-    puts "Now we have #{students.count} students"
+    puts students.count == 1 ? "Now we have #{students.count} student" : "Now we have #{students.count} students"
     # get anther name from the user
     name = gets.chomp
   end
@@ -46,7 +46,7 @@ def print(students)
 end
 
 def print_footer(students)
-  puts "Overall, we have #{students.count} great students"
+  puts students.count == 1 ? "Overall, we have #{students.count} great student" : "Overall, we have #{students.count} great students"
 end
 
 students = input_students
