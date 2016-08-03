@@ -27,20 +27,24 @@ def input_students
   students
 end
 
-def print_header
+def print_header(students)
+  if !students.empty?
   puts "The students of Villains Academy"
   puts "-------------"
+  end
 end
 
 def print(students)
-  cohorts = students.map {|student| student[:cohort]}.uniq
-  cohorts.each do |cohort|
-    students.each do |student|
-      if student[:cohort] == cohort
-        puts "#{student[:name]} (#{student[:cohort].capitalize} cohort)"
-        puts "Country: #{student[:country]}"
-        puts "Hobby: #{student[:hobby]}"
-        puts "Height: #{student[:height]}\n\n"
+  if !students.empty?
+    cohorts = students.map {|student| student[:cohort]}.uniq
+    cohorts.each do |cohort|
+      students.each do |student|
+        if student[:cohort] == cohort
+          puts "#{student[:name]} (#{student[:cohort].capitalize} cohort)"
+          puts "Country: #{student[:country]}"
+          puts "Hobby: #{student[:hobby]}"
+          puts "Height: #{student[:height]}\n\n"
+        end
       end
     end
   end
@@ -52,6 +56,6 @@ end
 
 students = input_students
 # nothing happens until we call the methods
-print_header
+print_header(students)
 print(students)
 print_footer(students)
