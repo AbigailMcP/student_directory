@@ -3,30 +3,25 @@
 def interactive_menu
   loop do
     print_menu
-    process(STDIN.gets.chomp)
+    process_menu(STDIN.gets.chomp)
   end
 end
 
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  puts "4. Load the list from students.csv"
-  puts "9. Exit"
+  puts "3. Save the list to a file"
+  puts "4. Load the list from a file"
+  puts "5. Exit"
 end
 
-def process(selection)
+def process_menu(selection)
   case selection
-  when "1"
-    input_students
-  when "2"
-    show_students
-  when "3"
-    save_students
-  when "4"
-    load_students
-  when "9"
-    exit
+  when "1" then input_students
+  when "2" then show_students
+  when "3" then request_filename(selection)
+  when "4" then request_filename(selection)
+  when "5" then exit
   else
     puts "I don't know what you mean, try again"
   end
@@ -41,16 +36,14 @@ end
 def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
-  # get the first name
-  name = STDIN.gets.chomp
-  # while the name is not empty, repeat this code
-  while !name.empty? do
+  name = STDIN.gets.chomp   # get the first name
+  while !name.empty? do   # while the name is not empty, repeat this code
     puts "What cohort are they in?"
     cohort = STDIN.gets.chomp.capitalize.to_sym
     if cohort.empty? == true then cohort = :November end
     # add the student hash to the array
     add_student(name,cohort)
-    puts @students.count == 1 ? "Now we have #{@students.count} student" : "Now we have #{@students.count} students"
+    puts @students.count == 1 ? "Student successfully added. Now we have #{@students.count} student" : "Student successfully added. Now we have #{@students.count} students"
     # get anther name from the user
     puts "Enter another student, or hit return again to finish"
     name = STDIN.gets.chomp
@@ -83,9 +76,15 @@ def print_footer
   puts
 end
 
-def save_students
+def request_filename(selection)
+  puts "Please enter a filename:"
+  filename = STDIN.gets.chomp
+  selection == "3" ? save_students(filename) : load_students(filename)
+end
+
+def save_students(filename = "students.csv")
   # open the file for writing
-  file = File.open("students.csv", "w")
+  file = File.open(filename, "w")
   # iterate over the array of students
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
@@ -93,9 +92,10 @@ def save_students
     file.puts csv_line
   end
   file.close
+  puts "Save complete"
 end
 
-def try_load_students
+def load_students_startup
   filename = ARGV.first # first argument from the command line
   if filename.nil? # if none given
     load_students
@@ -117,5 +117,5 @@ def load_students(filename = "students.csv")
   puts "Loaded #{@students.count} from #{filename}"
 end
 
-try_load_students
+load_students_startup
 interactive_menu
