@@ -63,7 +63,7 @@ end
 
 def print_header
   puts "The students of Villains Academy"
-  puts "-------------"
+  puts "--------------------------------"
 end
 
 def print_students_list
@@ -78,6 +78,7 @@ def print_students_list
 end
 
 def print_footer
+  puts "--------------------------------"
   puts @students.count == 1 ? "Overall, we have #{@students.count} great student" : "Overall, we have #{@students.count} great students"
   puts
 end
@@ -96,13 +97,13 @@ end
 
 def try_load_students
   filename = ARGV.first # first argument from the command line
-  return if filename.nil? # get out of the method if it isn't given
-  if File.exists?(filename) # if it exists
+  if filename.nil? # if none given
+    load_students
+  elsif File.exists?(filename) # if it exists
     load_students(filename)
-    puts "Loaded #{@students.count} from #{filename}"
   else # if it doesn't exists
     puts "Sorry, #{filename} doesn't exist"
-    exit # quit the program
+    load_students
   end
 end
 
@@ -113,6 +114,7 @@ def load_students(filename = "students.csv")
     add_student(name,cohort)
   end
   file.close
+  puts "Loaded #{@students.count} from #{filename}"
 end
 
 try_load_students
