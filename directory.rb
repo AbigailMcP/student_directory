@@ -101,13 +101,12 @@ def load_students_startup
 end
 
 def load_students(filename = "students.csv")
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-    name, cohort = line.chomp.split(',')
-    add_student(name,cohort)
+  CSV.foreach(filename) do |line|
+    add_student(line[0], line[1])
   end
-  file.close
   puts "Loaded #{@students.count} from #{filename}"
+rescue
+  puts "Sorry, that file does not exist. Loading failed."
 end
 
 load_students_startup
